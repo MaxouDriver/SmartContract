@@ -1,19 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { newContextComponents } from "@drizzle/react-components";
 import logo from "./logo.png";
 
 const { AccountData, ContractData, ContractForm } = newContextComponents;
 
 export default ({ drizzle, drizzleState }) => {
-  // destructure drizzle and drizzleState from props
+  const [address, setAddress] = useState("");
   return (
     <div className="App">
       <div>
         <img src={logo} alt="drizzle-logo" />
-        <h1>Drizzle Examples</h1>
-        <p>
-          Examples of how to get started with Drizzle in various situations.
-        </p>
+        <h1>My Drizzle</h1>
       </div>
 
       <div className="section">
@@ -25,6 +22,80 @@ export default ({ drizzle, drizzleState }) => {
           units="ether"
           precision={3}
         />
+      </div>
+
+
+      <div className="section">
+        <h2>MarketPlace</h2>
+        <p>EVALUATION</p>
+        <p>
+          Créer un shipping contract (contrat d'expédition)
+Le smart contract que vous allez créer effectue le suivi de l’état des éléments achetés sur une marketplace en ligne. Lorsque le contrat est créé, l’état de l’expédition est défini sur Pending. Lorsqu’un article est expédié, l’état de l’expédition est défini sur Shipped et un événement est émis. Une fois la livraison exécutée, l’état d’expédition de l’élément est défini sur Delivered et un autre événement est émis.
+        </p>
+        <h2>List des items disponibles :</h2>
+        <ul>
+          <li>0- Renault</li>
+          <li>1- Audi</li>
+          <li>2- BMW</li>
+          <li>3- Fiat</li>
+        </ul>
+        <p>
+          <strong>Index of item that you want to buy: </strong>
+        </p>
+
+        <ContractForm
+          drizzle={drizzle}
+          contract="MarketPlace"
+          method="buy"
+          labels={["Index of item to buy", "Address"]}
+        />
+
+        <p>
+          <strong>Item owned by address: </strong>
+        </p>
+
+        <input
+          type="text"
+          placeholder="Enter address"
+          onChange={(e) => {
+            setAddress(e.target.value);
+          }}
+        />
+
+        {address !== "" && <ContractData
+            drizzle={drizzle}
+            drizzleState={drizzleState}
+            contract="MarketPlace"
+            method="getItem"
+            methodArgs={[address]}
+          />}
+        <p>
+          <strong>Ship item: </strong>
+        </p>
+        <ContractForm
+          drizzle={drizzle}
+          contract="MarketPlace"
+          method="ship"
+          labels={["Index of item to ship"]}
+        />
+        <p>
+          <strong>Deliver item : </strong>
+        </p>
+        <ContractForm
+          drizzle={drizzle}
+          contract="MarketPlace"
+          method="delivered"
+          labels={["Index of item delivered", "Address"]}
+        />
+        <p>
+          <strong>Tip delivery man: </strong>
+        </p>
+        <ContractForm
+          drizzle={drizzle}
+          contract="MarketPlace"
+          method="tip"
+          labels={["Index of item"]}
+        /> 
       </div>
 
       <div className="section">

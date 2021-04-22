@@ -12,7 +12,6 @@ const App = () => {
     <DrizzleContext.Provider drizzle={drizzle}>
       <DrizzleContext.Consumer>
         {drizzleContext => {
-          console.log(drizzleContext);
           const { drizzle, drizzleState, initialized } = drizzleContext;
 
           if (!initialized) {
